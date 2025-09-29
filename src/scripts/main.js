@@ -6,20 +6,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
   galleries.forEach((ul) => {
     ul.addEventListener('click', (e) => {
+      const anchor = e.target.closest('a');
+
+      if (!anchor) {
+        return;
+      }
+
+      if (!largeImage || !ul.contains(anchor)) {
+        return;
+      }
       e.preventDefault();
 
-      const img = e.target.closest('a');
-
-      if (!largeImage || !ul.contains(img)) {
-        return;
-      }
-
-      if (!img) {
-        return;
-      }
-
-      const href = new URL(img.getAttribute('href'), window.location).href;
-      const title = img.getAttribute('title');
+      const href = new URL(anchor.getAttribute('href'), window.location).href;
+      const title = anchor.getAttribute('title');
 
       largeImage.src = href;
       largeImage.alt = title || '';
