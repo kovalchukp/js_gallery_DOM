@@ -22,7 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
       }
 
-      const href = new URL(anchor.getAttribute('href'), window.location).href;
+      const href = anchor
+        ? new URL(anchor.getAttribute('href'), window.location).href
+        : img && img.src;
+
+      if (!href) {
+        return;
+      }
 
       largeImage.src = href;
 
