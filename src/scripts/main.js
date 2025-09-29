@@ -7,21 +7,29 @@ document.addEventListener('DOMContentLoaded', () => {
   galleries.forEach((ul) => {
     ul.addEventListener('click', (e) => {
       const anchor = e.target.closest('a');
+      const img = e.target.closest('img');
+      const clickedEl = anchor || img;
 
-      if (!anchor) {
+      if (!anchor && !img) {
         return;
       }
 
-      if (!largeImage || !ul.contains(anchor)) {
+      if (!largeImage || !ul.contains(clickedEl)) {
         return;
       }
-      e.preventDefault();
+
+      if (anchor) {
+        e.preventDefault();
+      }
 
       const href = new URL(anchor.getAttribute('href'), window.location).href;
-      const title = anchor.getAttribute('title');
 
       largeImage.src = href;
-      largeImage.alt = title || '';
+
+      largeImage.alt =
+        (anchor && anchor.getAttribute('title')) ||
+        (img && img.getAttribute('alt')) ||
+        '';
     });
   });
 });
